@@ -15,6 +15,8 @@ services:
         - 8000:8000
       networks:
         - myappnetwork
+      environment:
+        - AUTH_TOKEN=enter your token here
       depends_on:
         - db    
     db:
