@@ -28,7 +28,7 @@ services:
         - POSTGRES_PASSWORD=postgres
         - POSTGRES_DB=bridge-db
       ports:
-        - "5432:5432"
+        - "5858:5432"
       networks:
         - myappnetwork
       volumes:
