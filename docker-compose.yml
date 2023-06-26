@@ -1,13 +1,13 @@
 version: '3'
 services:
-    vue:
-      image: amaymon8/mdc-vue-csv:latest
-      ports:
-        - 8080:8080    
-      container_name: vue-csv
+    watchtower:
+      image: containrrr/watchtower
+      container_name: watchtower
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      command: --interval 300
       networks:
         - myappnetwork
-      
     python:
       image: amaymon8/mdc-python-csv:latest
       container_name: python-csv
@@ -18,7 +18,9 @@ services:
       environment:
         - AUTH_TOKEN=enter your token here
       depends_on:
-        - db    
+        - db
+      labels:
+        - com.centurylinklabs.watchtower.enable=tru
     db:
       image: postgres:latest
       restart: always
@@ -35,3 +37,4 @@ services:
         - ./data:/var/lib/postgresql/data
 networks:
   myappnetwork:
+    external: true
