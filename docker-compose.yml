@@ -19,8 +19,9 @@ services:
         - AUTH_TOKEN=enter your token here
       depends_on:
         - db
+      command: gunicorn -b 0.0.0.0:8000 server:app
       labels:
-        - com.centurylinklabs.watchtower.enable=tru
+        - com.centurylinklabs.watchtower.enable=true
     db:
       image: postgres:latest
       restart: always
@@ -35,6 +36,15 @@ services:
         - myappnetwork
       volumes:
         - ./data:/var/lib/postgresql/data
+    alembic:
+      build: ./python-csv
+      container_name: alembic
+      depends_on:
+        - db
+      networks:
+        - myappnetwork
+      command: bash -c "sleep 10 && alembic revision --autogenerate -m 'Initial migration' && alembic upgrade head"
+
 networks:
   myappnetwork:
     external: true
