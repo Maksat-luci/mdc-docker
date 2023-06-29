@@ -6,6 +6,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 300
+    restart: always
     networks:
       - myappnetwork
     depends_on:
